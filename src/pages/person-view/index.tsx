@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Container,
   Stack,
@@ -32,12 +32,13 @@ const infoFields: { key: string; label: string; suffix?: string }[] = [
 const PersonViewPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { triggerUpdate } = useLocalStorageUpdate();
 
   const { data: person, isLoading, error, refetch } = usePersonQuery(id!);
   const { localData, mergedData, save, reset } = useLocalPerson(id!, person);
 
-  const handleBack = () => navigate('/');
+  const handleBack = () => navigate(location.state?.from || '/');
 
   const handleSave = (data: LocalPersonData) => {
     save(data);

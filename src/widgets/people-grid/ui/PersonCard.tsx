@@ -8,7 +8,7 @@ import {
   Badge,
   Indicator,
 } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { Person } from '@entities/person';
 import { useLocalPersonCheck, useMergedPersonData } from '@entities/person';
 import { createPersonRoute } from '@shared/routing';
@@ -20,12 +20,13 @@ type PersonCardProps = {
 
 export const PersonCard: FC<PersonCardProps> = ({ person }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const personId = extractIdFromUrl(person.url);
   const hasLocalEdits = useLocalPersonCheck(personId);
   const displayData = useMergedPersonData(personId, person);
 
   const handleViewDetails = () => {
-    navigate(createPersonRoute(personId));
+    navigate(createPersonRoute(personId), { state: { from: location.pathname + location.search } });
   };
 
   return (
