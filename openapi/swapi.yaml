@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Star Wars API
+  version: 1.0.0
+servers:
+  - url: https://swapi.py4e.com
+paths:
+  /api/people:
+    get:
+      operationId: getPeople
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of people
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PeopleResponse'
+  /api/people/{id}:
+    get:
+      operationId: getPerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Person details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+components:
+  schemas:
+    PeopleResponse:
+      type: object
+      required:
+        - count
+        - results
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+    Person:
+      type: object
+      required:
+        - name
+        - height
+        - mass
+        - hair_color
+        - skin_color
+        - eye_color
+        - birth_year
+        - gender
+        - homeworld
+        - films
+        - species
+        - vehicles
+        - starships
+        - created
+        - edited
+        - url
+      properties:
+        name:
+          type: string
+        height:
+          type: string
+        mass:
+          type: string
+        hair_color:
+          type: string
+        skin_color:
+          type: string
+        eye_color:
+          type: string
+        birth_year:
+          type: string
+        gender:
+          type: string
+        homeworld:
+          type: string
+        films:
+          type: array
+          items:
+            type: string
+        species:
+          type: array
+          items:
+            type: string
+        vehicles:
+          type: array
+          items:
+            type: string
+        starships:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+        edited:
+          type: string
+        url:
+          type: string
